@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Give Me a Cookie!</title>
+</head>
+<body>
+
+    <p><img src="cookies.jpg" /></p>
+    <p style="margin-left:100px">Counter: <span id="counter">0</span></p>
+    <button style="margin-left:100px" id="incrementButton">Cookies!</button>
+
+
+    <script>
+        function getCookie(name) {
+          const cookieString = decodeURIComponent(document.cookie);
+          const cookies = cookieString.split("; ");
+          for (const cookie of cookies) {
+            const [cookieName, cookieValue] = cookie.split("=");
+            if (cookieName === name) {
+                return cookieValue;
+            }
+           }
+        }
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        function incrementCounter() {
+            let counter = parseInt(getCookie("counter")) || 0;
+            counter += 1;
+            setCookie("counter", counter.toString(), 365);
+            document.getElementById("counter").innerText = counter;
+        }
+
+        document.getElementById("incrementButton").addEventListener("click", incrementCounter);
+
+        document.getElementById("counter").innerText = getCookie("counter") || 0;
+    </script>
+</body>
+</html>
